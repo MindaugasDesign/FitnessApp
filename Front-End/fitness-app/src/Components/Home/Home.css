@@ -1,0 +1,33 @@
+#webUser,
+.user-container {
+  border: 1px solid black;
+  width: fit-content;
+  box-sizing: border-box;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#allUser__wrapper {
+  padding: 1em;
+}
+
+.userLogs,
+.userGoals {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.data__container {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+}
+
+.control__buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5em;
+}

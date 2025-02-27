@@ -1,3 +1,10 @@
+:root {
+  --website-color1: #3c64e3;
+  --website-color2: #f9c2c4;
+  --website-color3: #858ad6;
+  --website-color4: #687cdc;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -5,23 +12,37 @@ body {
 }
 
 .website__logo {
-  height: 100px;
+  height: 150px;
+  max-height: 100%;
+  width: auto;
 }
 
 nav {
   background-color: #3c64e3;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5em 1em;
+  box-sizing: border-box;
+  height: 80px;
+  overflow: hidden;
 }
 
-h1 {
+.navigation__link {
+  text-decoration: none;
   color: #f9c2c4;
 }
 
-.test1 {
-  width: 100%;
-  background-color: #858ad6;
+.navigation__link:hover {
+  text-decoration: underline;
+  color: #d8a9ab;
+  transform: scale(1.025);
 }
 
-.test2 {
-  width: 100%;
-  background-color: #687cdc;
+.nav__links {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5em;
+  margin-right: 5em;
 }
