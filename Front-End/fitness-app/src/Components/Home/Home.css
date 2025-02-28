@@ -1,5 +1,4 @@
-#webUser,
-.user-container {
+#webUser {
   border: 1px solid black;
   width: fit-content;
   box-sizing: border-box;
@@ -7,6 +6,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 15em;
 }
 
 #allUser__wrapper {
@@ -29,5 +29,73 @@
 .control__buttons {
   display: flex;
   flex-direction: row;
-  gap: 0.5em;
+  gap: 1em;
+}
+
+.control__buttons i {
+  font-size: 24px;
+  color: #687cdc;
+}
+
+.control__buttons i:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+  color: #5564b1;
+}
+
+.test {
+  position: relative;
+  font-family: sans-serif;
+  font-size: 24px;
+}
+
+.edit-container {
+  cursor: pointer;
+  display: inline-grid;
+  place-items: center;
+  font-style: italic;
+}
+
+.edit-icon {
+  position: absolute;
+  transform: scale(1, 1);
+  transform-origin: bottom;
+  transition: 500ms;
+}
+
+.edit-text {
+  transform: scale(1, 0);
+  transform-origin: top;
+  transition: 500ms;
+  font-size: 0.75em;
+  text-align: center;
+}
+
+.edit-container:hover .edit-text {
+  transform: scale(1, 1);
+}
+
+.edit-container:hover .edit-icon {
+  transform: scale(1, 0);
+}
+
+/* User Form */
+
+#addNewUser {
+  border: 1px solid black;
+}
+
+.heightInstructions {
+  display: none;
+}
+
+.inputsels:focus + .heightInstructions {
+  color: red;
+  display: initial;
+}
+
+#addNewUser {
+  display: flex;
+  flex-direction: column;
+  width: 30em;
 }
