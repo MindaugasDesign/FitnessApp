@@ -5,5 +5,17 @@
     "joi": "^17.13.3",
     "mongo": "^0.1.0",
     "nodemon": "^3.1.9"
-  }
+  },
+  "name": "back-end",
+  "version": "1.0.0",
+  "main": "app.js",
+  "devDependencies": {},
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "type": "module"
 }

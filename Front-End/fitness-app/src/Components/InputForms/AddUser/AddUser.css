@@ -1,0 +1,27 @@
+#addNewUser {
+  border: 1px solid black;
+  display: flex;
+
+  flex-direction: row;
+}
+
+.heightInstructions {
+  display: none;
+}
+
+.inputsels:focus + .heightInstructions {
+  color: red;
+  display: initial;
+}
+
+#addNewUser {
+  display: flex;
+  flex-direction: column;
+  width: 30em;
+}
+
+input {
+  border: none;
+  border-bottom: 1px solid black;
+  border-left: 1px solid black;
+}

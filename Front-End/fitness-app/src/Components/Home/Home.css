@@ -6,11 +6,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 15em;
+  width: 18em;
 }
 
 #allUser__wrapper {
   padding: 1em;
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
 }
 
 .userLogs,
@@ -77,25 +80,4 @@
 
 .edit-container:hover .edit-icon {
   transform: scale(1, 0);
-}
-
-/* User Form */
-
-#addNewUser {
-  border: 1px solid black;
-}
-
-.heightInstructions {
-  display: none;
-}
-
-.inputsels:focus + .heightInstructions {
-  color: red;
-  display: initial;
-}
-
-#addNewUser {
-  display: flex;
-  flex-direction: column;
-  width: 30em;
 }
