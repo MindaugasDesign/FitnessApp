@@ -1,5 +1,7 @@
 import express from "express";
 import cors from "cors";
+import dayjs from "dayjs"; // Import Day.js for date calculations
+
 const app = express();
 const PORT = 5000;
 
@@ -21,6 +23,7 @@ const client = new MongoClient(uri, {
 let db;
 let usersCollection;
 let logsCollection;
+let goalsCollection;
 
 async function initializeMongo() {
   try {
@@ -28,6 +31,7 @@ async function initializeMongo() {
     db = client.db("FitnessApp");
     usersCollection = db.collection("Users");
     logsCollection = db.collection("Logs");
+    goalsCollection = db.collection("Goals");
     console.log("Connected to MongoDB!");
   } catch (error) {
     console.error("Failed to connect to MongoDB:", error);
@@ -45,6 +49,50 @@ app.get("/", async (req, res) => {
   }
 });
 
+app.put("/:id", async (req, res) => {
+  const { name, age, email, weight, height, dateCreated } = req.body;
+  try {
+    const updatedUser = {
+      name,
+      age,
+      email,
+      weight,
+      height,
+      dateCreated,
+    };
+
+    const result = await usersCollection.updateOne(
+      { _id: new ObjectId(req.params.id) },
+      { $set: updatedUser }
+    );
+
+    if (result.matchedCount === 0) {
+      return res.status(404).send("User not found");
+    }
+
+    return res.status(200).json(updatedUser);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+});
+
+// DELETE user by ID
+app.delete("/:id", async (req, res) => {
+  try {
+    const result = await usersCollection.deleteOne({
+      _id: new require("mongodb").ObjectId(req.params.id),
+    });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).send("User not found");
+    }
+
+    return res.status(200).send("User deleted successfully");
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+});
+
 app.get("/userlog/:id", async (req, res) => {
   const sentUser = req.params.id;
   const specificUser = await usersCollection.findOne({
@@ -53,26 +101,41 @@ app.get("/userlog/:id", async (req, res) => {
 
   res.send(specificUser);
 });
+app.get("/usergoal/:id", async (req, res) => {
+  const sentUser = req.params.id;
+  const specificUser = await usersCollection.findOne({
+    _id: new ObjectId(sentUser),
+  });
+
+  res.send(specificUser);
+});
+
+app.get("/usergoals/:id", async (req, res) => {
+  const sentUser = req.params.id;
+  const specificGoals = await goalsCollection.findOne({
+    userId: new ObjectId(sentUser),
+  });
+  res.send(specificGoals);
+});
 
 app.post("/addnewuser", async (req, res) => {
   try {
     const newUser = req.body;
-
-    // Insert user into the users collection
     const userResult = await usersCollection.insertOne(newUser);
-
     if (!userResult.acknowledged) {
       return res.status(500).send({ error: "Failed to create user" });
     }
-
-    // Create a log entry for the new user
     const logEntry = {
-      userId: userResult.insertedId, // Associate log with user ID
+      userId: userResult.insertedId,
       logs: [],
     };
 
+    const userGoal = {
+      userId: userResult.insertedId,
+      goals: [],
+    };
     await logsCollection.insertOne(logEntry);
-
+    await goalsCollection.insertOne(userGoal);
     return res.status(201).send({
       userId: userResult.insertedId,
       message: "User created and log added",
@@ -80,6 +143,56 @@ app.post("/addnewuser", async (req, res) => {
   } catch (error) {
     console.error("Error adding new user and log:", error);
     return res.status(500).send({ error: "Internal server error" });
+  }
+});
+
+app.post("/addgoal", async (req, res) => {
+  try {
+    const { userId, goalName, goalStartDate, goalDuration } = req.body;
+
+    if (!userId || !goalName || !goalStartDate || !goalDuration) {
+      return res.status(400).send({ error: "All fields are required" });
+    }
+    const startDate = new Date(goalStartDate);
+    let endDate = new Date(startDate);
+
+    switch (goalDuration) {
+      case "1day":
+        endDate = dayjs(startDate).add(1, "day").toDate();
+        break;
+      case "1week":
+        endDate = dayjs(startDate).add(1, "week").toDate();
+        break;
+      case "1month":
+        endDate = dayjs(startDate).add(1, "month").toDate();
+        break;
+      case "1year":
+        endDate = dayjs(startDate).add(1, "year").toDate();
+        break;
+      default:
+        return res.status(400).send({ error: "Invalid duration" });
+    }
+
+    const goalData = {
+      goalName,
+      startDate,
+      endDate,
+    };
+
+    const result = await goalsCollection.updateOne(
+      { userId: new ObjectId(userId) },
+      { $push: { goals: goalData } },
+      { upsert: true }
+    );
+
+    if (result.modifiedCount > 0 || result.upsertedCount > 0) {
+      res.status(201).send({ message: "Goal added successfully!", goalData });
+    } else {
+      res.status(500).send({ error: "Failed to add goal" });
+    }
+  } catch (error) {
+    console.error("Error adding goal:", error);
+    res.status(500).send({ error: "Internal server error" });
   }
 });
 

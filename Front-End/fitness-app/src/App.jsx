@@ -6,6 +6,7 @@ import { Logs } from "./Components/Logs/Logs";
 import { Goals } from "./Components/Goals/Goals";
 import { AddUser } from "./Components/InputForms/AddUser/AddUser";
 import { Return } from "./Components/Extra Components/Return/Return";
+import { Footer } from "./Components/Footer/Footer";
 
 function App() {
   return (
@@ -28,6 +29,8 @@ function App() {
           }
         />
       </Routes>
+
+      <Footer />
     </>
   );
 }

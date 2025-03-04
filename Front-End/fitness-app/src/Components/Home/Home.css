@@ -1,12 +1,57 @@
 #webUser {
   border: 1px solid black;
-  width: fit-content;
   box-sizing: border-box;
   padding: 1em;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 18em;
+  background-color: #f9c2c4;
+  border-radius: 16px;
+  height: 18em;
+}
+
+body {
+  height: 100vh;
+}
+
+.home-wrapper {
+  background: linear-gradient(#3c64e3, #687cdc, #858ad6);
+  height: calc(100vh - 110px);
+}
+
+.dateCreated,
+.userName,
+.userAge,
+.userEmail,
+.userHeight,
+.userWeight {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  margin: 0;
+  color: black;
+}
+
+#webUser p {
+  margin: 0.25em;
+}
+
+#webUser > div > p:first-child {
+  color: #363535;
+}
+
+#home__Header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1em 2em;
+}
+.home__Header__text {
+  color: #f9c2c4;
 }
 
 #allUser__wrapper {
@@ -14,6 +59,7 @@
   display: flex;
   flex-direction: row;
   gap: 1em;
+  flex-wrap: wrap;
 }
 
 .userLogs,
@@ -32,18 +78,17 @@
 .control__buttons {
   display: flex;
   flex-direction: row;
-  gap: 1em;
+  gap: 2.5em;
+  margin-top: 1em;
+}
+
+.icon__wrapper {
+  box-sizing: border-box;
 }
 
 .control__buttons i {
   font-size: 24px;
-  color: #687cdc;
-}
-
-.control__buttons i:hover {
-  transform: scale(1.1);
-  cursor: pointer;
-  color: #5564b1;
+  color: black;
 }
 
 .test {
@@ -60,7 +105,7 @@
 }
 
 .edit-icon {
-  position: absolute;
+  position: relative;
   transform: scale(1, 1);
   transform-origin: bottom;
   transition: 500ms;
@@ -72,6 +117,7 @@
   transition: 500ms;
   font-size: 0.75em;
   text-align: center;
+  position: absolute;
 }
 
 .edit-container:hover .edit-text {
@@ -80,4 +126,16 @@
 
 .edit-container:hover .edit-icon {
   transform: scale(1, 0);
+}
+
+.edit-label {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0.5em 0;
+}
+
+.save-Btn {
+  width: 100%;
 }
