@@ -35,21 +35,24 @@ export function Goals() {
   return (
     <div>
       {!openedUser ? (
-        <form id="selectUser" onSubmit={handleUserSelect}>
-          <select name="selectUser" id="selectUser" onChange={addUserId}>
-            <option value="_Blank">Select User</option>
-            {allUsers.map((user) => (
-              <option key={user._id} value={user._id}>
-                {user.name}
-              </option>
-            ))}
-          </select>
-          <input type="submit" value="Select" />
-        </form>
+        <div className="first__page">
+          <h2>User Goals</h2>
+          <form id="selectUser" onSubmit={handleUserSelect}>
+            <select name="selectUser" id="selectUser" onChange={addUserId}>
+              <option value="_Blank">Select User</option>
+              {allUsers.map((user) => (
+                <option key={user._id} value={user._id}>
+                  {user.name}
+                </option>
+              ))}
+            </select>
+            {/* <input type="submit" value="Select" className="submit-Btn" /> */}
+          </form>
+        </div>
       ) : (
         <div>
           <h2>Selected User Details</h2>
-          <pre>{JSON.stringify(openedUser, null, 2)}</pre>
+          {/* <pre>{JSON.stringify(openedUser, null, 2)}</pre> */}
           <AddGoal user={openedUser._id} />
         </div>
       )}
