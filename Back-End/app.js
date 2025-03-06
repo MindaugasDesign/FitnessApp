@@ -118,6 +118,38 @@ app.get("/usergoals/:id", async (req, res) => {
   res.send(specificGoals);
 });
 
+app.get("/userlogs/:id", async (req, res) => {
+  try {
+    const sentUser = req.params.id;
+    const result = await logsCollection
+      .aggregate([
+        { $match: { userId: new ObjectId(sentUser) } }, // Match user by userId
+        { $unwind: "$logs" }, // Unwind goals array
+        {
+          $lookup: {
+            from: "goal", // Assuming logs are stored in a separate collection
+            localField: "goalId",
+            foreignField: "goals.goalId",
+            as: "logs",
+          },
+        },
+        {
+          $project: {
+            goalName: "$logs.logName",
+            logCount: { $size: "$logs" }, // Count the number of logs for each goal
+          },
+        },
+      ])
+      .toArray();
+
+    // Send the result to the client
+    res.json(result);
+  } catch (error) {
+    console.error("Error fetching goal log counts:", error);
+    res.status(500).send("Error fetching goal log counts");
+  }
+});
+
 app.post("/addnewuser", async (req, res) => {
   try {
     const newUser = req.body;
@@ -146,9 +178,42 @@ app.post("/addnewuser", async (req, res) => {
   }
 });
 
+app.post("/addnewlog", async (req, res) => {
+  try {
+    const { userId, goal, logName, logDesc, logDate } = req.body;
+    if (!userId || !goal || !logName || !logDesc || !logDate) {
+      return res.status(400).send({ error: "All fields are required" });
+    }
+
+    const logData = {
+      goalId: new ObjectId(goal),
+      logName: logName,
+      logDesc: logDesc,
+      logDate: logDate,
+    };
+
+    const result = await logsCollection.updateOne(
+      { userId: new ObjectId(userId) },
+      { $push: { logs: logData } },
+      { upsert: true }
+    );
+
+    if (result.modifiedCount > 0 || result.upsertedCount > 0) {
+      res.status(201).send({ message: "Log added successfully!", logData });
+    } else {
+      res.status(500).send({ error: "Failed to add a log" });
+    }
+  } catch (error) {
+    console.error("Error adding lgo:", error);
+    res.status(500).send({ error: "Internal server error" });
+  }
+});
+
 app.post("/addgoal", async (req, res) => {
   try {
     const { userId, goalName, goalStartDate, goalDuration } = req.body;
+
+    console.log(userId);
 
     if (!userId || !goalName || !goalStartDate || !goalDuration) {
       return res.status(400).send({ error: "All fields are required" });
@@ -174,6 +239,7 @@ app.post("/addgoal", async (req, res) => {
     }
 
     const goalData = {
+      goalId: new ObjectId(),
       goalName,
       startDate,
       endDate,
@@ -195,6 +261,8 @@ app.post("/addgoal", async (req, res) => {
     res.status(500).send({ error: "Internal server error" });
   }
 });
+
+app.get("/goals", async (req, res) => {});
 
 app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);

@@ -1,0 +1,10 @@
+.addGoal__Container {
+  background: linear-gradient(#3c64e3, #687cdc, #858ad6);
+  height: calc(100vh - 110px);
+}
+
+.goalForm {
+  margin: 0 1em;
+  color: #f9c2c4;
+  letter-spacing: 0.1em;
+}

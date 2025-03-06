@@ -1,10 +1,14 @@
 import { AddGoal } from "../InputForms/AddGoal/AddGoal";
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { UserGoals } from "./UserGoals/UserGoals";
+import "./Goals.css";
 
 export function Goals() {
   const [allUsers, setAllUsers] = useState([]);
   const [selectedUserId, setUserId] = useState("");
   const [openedUser, setOpenedUser] = useState(null);
+  let userData = useLocation();
 
   useEffect(() => {
     fetch("http://localhost:5000")
@@ -17,6 +21,26 @@ export function Goals() {
   const addUserId = (e) => {
     setUserId(e.target.value);
   };
+
+  useEffect(() => {
+    if (!selectedUserId && userData.state?.userId) {
+      setUserId(userData.state.userId);
+      return;
+    }
+
+    if (!selectedUserId) return;
+    fetch(`http://localhost:5000/userlog/${selectedUserId}`)
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch user log");
+        return res.json();
+      })
+      .then((data) => {
+        setOpenedUser(data);
+      })
+      .catch((err) => {
+        if (err.name !== "AbortError") console.error("Fetch error:", err);
+      });
+  }, [selectedUserId, userData.state?.userId]);
 
   const handleUserSelect = (e) => {
     e.preventDefault();
@@ -33,7 +57,7 @@ export function Goals() {
   };
 
   return (
-    <div>
+    <div className="goal-wrapper">
       {!openedUser ? (
         <div className="first__page">
           <h2>User Goals</h2>
@@ -50,10 +74,11 @@ export function Goals() {
           </form>
         </div>
       ) : (
-        <div>
-          <h2>Selected User Details</h2>
+        <div className="goal__page">
+          <h2 className="goal__text">Selected User Goals</h2>
           {/* <pre>{JSON.stringify(openedUser, null, 2)}</pre> */}
-          <AddGoal user={openedUser._id} />
+          {/* <AddGoal user={openedUser._id} /> */}
+          <UserGoals data={openedUser} />
         </div>
       )}
     </div>

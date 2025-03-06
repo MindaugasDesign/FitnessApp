@@ -7,6 +7,8 @@ import { Goals } from "./Components/Goals/Goals";
 import { AddUser } from "./Components/InputForms/AddUser/AddUser";
 import { Return } from "./Components/Extra Components/Return/Return";
 import { Footer } from "./Components/Footer/Footer";
+import { AddGoal } from "./Components/InputForms/AddGoal/AddGoal";
+import { AddLog } from "./Components/InputForms/AddLog/AddLog";
 
 function App() {
   return (
@@ -26,6 +28,22 @@ function App() {
                 <AddUser />
               </div>
             </>
+          }
+        />
+        <Route
+          path="addgoal"
+          element={
+            <div className="addGoal__Container">
+              <AddGoal />
+            </div>
+          }
+        />
+        <Route
+          path="addnewlog"
+          element={
+            <div className="addLog__Container">
+              <AddLog />
+            </div>
           }
         />
       </Routes>

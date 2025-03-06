@@ -1,15 +1,21 @@
 import { useState } from "react";
 import "./AddGoal.css";
+import { useLocation } from "react-router-dom";
 
 export function AddGoal({ user }) {
   const [goalName, setGoalName] = useState("");
   const [goalStartDate, setGoalStartDate] = useState("");
   const [goalDuration, setGoalDuration] = useState("");
 
+  const location = useLocation();
+  const userId = location.state?.userId;
+
+  console.log(userId);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const goalData = { userId: user, goalName, goalStartDate, goalDuration };
+    const goalData = { userId: userId, goalName, goalStartDate, goalDuration };
 
     try {
       const response = await fetch("http://localhost:5000/addgoal", {
@@ -34,7 +40,7 @@ export function AddGoal({ user }) {
 
   return (
     <>
-      <h1>User ID: {user}</h1>
+      <h1 className="goalForm">User ID: {userId}</h1>
       <form id="addNewGoal" onSubmit={handleSubmit}>
         <label htmlFor="goalName">Goal Name</label>
         <input

@@ -1,0 +1,75 @@
+.goalProgress {
+  accent-color: green;
+  width: 100%;
+}
+
+.goal__header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1em;
+}
+
+#goal__Container {
+  padding: 0 1em;
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+  flex-wrap: wrap;
+}
+
+#single__goal {
+  border: 1px solid black;
+  width: 18em;
+  background-color: #7c6e6e;
+  box-shadow: 0.1em 0.1em 1em #d3d3d3;
+  border-radius: 16px;
+  padding: 0.5em;
+}
+
+#single__goal > .goal {
+  color: #fff;
+  font-size: large;
+  text-align: center;
+  font-style: italic;
+  letter-spacing: 0.1em;
+}
+
+.goal__Dates {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#single__goal > .goal__Dates > .fromDate > .goalDateCreated,
+.goalDateToFinish {
+  color: #f9c2c4;
+  text-align: center;
+  letter-spacing: 0.1em;
+  font-weight: bold;
+}
+
+#single__goal > .goalDesc {
+  text-align: center;
+  color: #fff;
+  letter-spacing: 0.05em;
+}
+
+.goal__header > .userDetails > .goalOfUser {
+  color: white;
+  letter-spacing: 0.1em;
+  font-style: italic;
+}
+
+.fromDate,
+.toDate {
+  color: white;
+  letter-spacing: 0.1em;
+  font-style: italic;
+}
+
+.toDate {
+  text-align: end;
+}

@@ -1,0 +1,9 @@
+.goal__page {
+  background: linear-gradient(#3c64e3, #687cdc, #858ad6);
+  min-height: calc(100vh - 110px);
+}
+
+.goal__page > .goal__text {
+  margin: 0 1em;
+  color: #f9c2c4;
+}
