@@ -1,0 +1,13 @@
+.newUser__wrapper,
+.addGoal__Container,
+.addLog__Container {
+  background: linear-gradient(#3c64e3, #687cdc, #858ad6);
+  min-height: calc(100vh - 110px);
+  padding: 1em 2em;
+}
+
+.newUserContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

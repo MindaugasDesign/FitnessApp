@@ -25,58 +25,6 @@ export function Home() {
         </div>
 
         <div id="allUser__wrapper">
-          <div id="webUser">
-            <div className="dateCreated">
-              <p className="createdText">Date created:</p>
-              <p className="createdData">2025-02-05</p>
-            </div>
-            <div className="userName">
-              <p className="userNameText">Name:</p>
-              <p className="userNameData">Mindaugas</p>
-            </div>
-            <div className="userAge">
-              <p className="userAgeText">Age:</p>
-              <p className="userAgeData">27</p>
-            </div>
-            <div className="userEmail">
-              <p className="userEmailText">Email:</p>
-              <p className="userEmailData">test@test.com</p>
-            </div>
-            <div className="userHeight">
-              <p className="userHeightText">Weight:</p>
-              <p className="userHeightData">95kg</p>
-            </div>
-            <div className="userWeight">
-              <p className="userWeightText">Height: </p>
-              <p className="userWeightData">1.92m</p>
-            </div>
-            <div className="control__buttons">
-              <div className="icon__wrapper">
-                <p className="test">
-                  <span className="edit-container">
-                    <i className="fa-solid fa-eye edit-icon"></i>
-                    <span className="edit-text">View User</span>
-                  </span>
-                </p>
-              </div>
-              <div className="icon__wrapper">
-                <p className="test">
-                  <span className="edit-container">
-                    <i className="fa-solid fa-pen-to-square edit-icon"></i>
-                    <span className="edit-text">Edit User</span>
-                  </span>
-                </p>
-              </div>
-              <div className="icon__wrapper">
-                <p className="test">
-                  <span className="edit-container">
-                    <i className="fa-solid fa-trash edit-icon"></i>
-                    <span className="edit-text">Delete User</span>
-                  </span>
-                </p>
-              </div>
-            </div>
-          </div>
           {userData.map((element) => {
             return (
               <OneUser data={element} key={element._id} userid={element._id} />
@@ -88,7 +36,7 @@ export function Home() {
   );
 }
 
-function OneUser({ data, userid, onDelete }) {
+function OneUser({ data, userid }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedUserData, setEditedUserData] = useState({ ...data });
 
@@ -111,6 +59,19 @@ function OneUser({ data, userid, onDelete }) {
       .then((res) => res.json())
       .then(() => {
         setIsEditing(false);
+      });
+  };
+
+  const handleDelete = (userid) => {
+    fetch(`http://localhost:5000/${userid}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then(() => {
+        alert("Deleted user");
       });
   };
 
@@ -225,7 +186,7 @@ function OneUser({ data, userid, onDelete }) {
           </p>
         </div>
 
-        <div className="icon__wrapper" onClick={() => onDelete(userid)}>
+        <div className="icon__wrapper" onClick={() => handleDelete(userid)}>
           <p className="test">
             <span className="edit-container">
               <i className="fa-solid fa-trash edit-icon"></i>

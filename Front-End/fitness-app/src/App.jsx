@@ -22,12 +22,12 @@ function App() {
         <Route
           path="/newuser"
           element={
-            <>
+            <div className="newUser__wrapper">
               <Return />
               <div className="newUserContainer">
                 <AddUser />
               </div>
-            </>
+            </div>
           }
         />
         <Route

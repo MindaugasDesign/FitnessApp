@@ -4,20 +4,9 @@ import "./UserGoals.css";
 import { Link } from "react-router-dom";
 
 export function UserGoals({ data }) {
-  // let testArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  // let testArrs = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
   const [goals, setGoals] = useState([]);
   const [userLogs, setUserLogs] = useState([]);
-
   const openUser = data?._id;
-
-  // useEffect(() => {
-  //   if (testArrs.length === testArr.length) {
-  //     console.log("haha");
-  //   }
-  // }, [testArrs.length, testArr.length]); // Runs when either value changes
-
   useEffect(() => {
     fetch(`http://localhost:5000/usergoals/${openUser}`)
       .then((res) => res.json())
@@ -30,8 +19,10 @@ export function UserGoals({ data }) {
     fetch(`http://localhost:5000/userlogs/${openUser}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        setUserLogs(data.logs);
+        const filter = data.map((eachLog) => {
+          return eachLog.logs.filter((log) => log.userId === openUser);
+        });
+        setUserLogs(filter[0]);
       });
   }, [openUser]);
 
@@ -77,9 +68,13 @@ export function UserGoals({ data }) {
 function SingleGoal({ data, userLogs }) {
   const newStartDate = new Date(data.startDate).toISOString().split("T")[0];
   const newEndDate = new Date(data.endDate).toISOString().split("T")[0];
-
   const newStartDates = new Date(data.startDate);
   const newEndDates = new Date(data.endDate);
+
+  const goalLogs = userLogs
+    .map((user) => user.logs)
+    .flat()
+    .filter((log) => log.selectedGoalId === data.goalId);
 
   let goalLength = newEndDates.getTime() - newStartDates.getTime();
 
@@ -100,7 +95,7 @@ function SingleGoal({ data, userLogs }) {
       </div>
       <progress
         className="goalProgress"
-        // value={userLogs.length}
+        value={goalLogs.length}
         max={goalLengthInDays}
       ></progress>
     </div>

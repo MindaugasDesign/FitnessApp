@@ -1,27 +1,69 @@
 #addNewUser {
-  border: 1px solid black;
   display: flex;
+  flex-direction: column;
+  width: 30em;
+  padding: 2em;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  z-index: 2;
+}
 
-  flex-direction: row;
+.addFormContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: inherit;
+  height: 100vh;
 }
 
 .heightInstructions {
   display: none;
+  color: red;
+  font-size: 0.9em;
+  margin-top: 0.5em;
 }
 
 .inputsels:focus + .heightInstructions {
-  color: red;
   display: initial;
 }
 
-#addNewUser {
-  display: flex;
-  flex-direction: column;
-  width: 30em;
+#addNewUser > label {
+  font-size: 1.2em;
+  margin-bottom: 0.5em;
+  color: #333;
 }
 
-input {
+#addNewUser > input {
+  height: 2em;
+  padding: 0.5em;
+  margin-bottom: 1em;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#addNewUser > input:focus {
+  outline: none;
+  border-color: #ffa500; /* Highlight border color on focus */
+  box-shadow: 0 0 5px rgba(255, 165, 0, 0.5); /* Add subtle glow */
+}
+
+input[type="submit"] {
+  cursor: pointer;
+  background-color: #ffa500;
+  color: white;
+  font-size: 1.2em;
   border: none;
-  border-bottom: 1px solid black;
-  border-left: 1px solid black;
+  padding: 0.8em;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+input[type="submit"]:hover {
+  background-color: #e68900;
+}
+
+input[type="submit"]:active {
+  background-color: #d77b00;
 }

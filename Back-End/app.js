@@ -78,18 +78,25 @@ app.put("/:id", async (req, res) => {
 
 // DELETE user by ID
 app.delete("/:id", async (req, res) => {
+  const userId = req.params.id;
+
   try {
-    const result = await usersCollection.deleteOne({
-      _id: new require("mongodb").ObjectId(req.params.id),
-    });
+    const objectId = new ObjectId(userId); // Convert to ObjectId
+
+    // Delete related logs and goals
+    await logsCollection.deleteOne({ userId: objectId });
+    await goalsCollection.deleteOne({ userId: objectId });
+
+    // Delete the user
+    const result = await usersCollection.deleteOne({ _id: objectId });
 
     if (result.deletedCount === 0) {
-      return res.status(404).send("User not found");
+      return res.status(404).json({ message: "User not found" });
     }
 
-    return res.status(200).send("User deleted successfully");
+    res.json({ message: "User and associated data deleted successfully" });
   } catch (error) {
-    res.status(400).send(error.message);
+    res.status(500).json({ error: error.message });
   }
 });
 
@@ -120,33 +127,38 @@ app.get("/usergoals/:id", async (req, res) => {
 
 app.get("/userlogs/:id", async (req, res) => {
   try {
-    const sentUser = req.params.id;
-    const result = await logsCollection
+    const userId = new ObjectId(req.params.id);
+
+    const userLogs = await goalsCollection
       .aggregate([
-        { $match: { userId: new ObjectId(sentUser) } }, // Match user by userId
-        { $unwind: "$logs" }, // Unwind goals array
+        {
+          $match: { userId },
+        },
+        {
+          $unwind: "$goals",
+        },
         {
           $lookup: {
-            from: "goal", // Assuming logs are stored in a separate collection
-            localField: "goalId",
-            foreignField: "goals.goalId",
+            from: "Logs",
+            localField: "selectedGoalId",
+            foreignField: "goalId",
             as: "logs",
           },
         },
         {
           $project: {
-            goalName: "$logs.logName",
-            logCount: { $size: "$logs" }, // Count the number of logs for each goal
+            _id: 0,
+            goalId: "$goals.goalId",
+            logs: { $ifNull: ["$logs", []] },
           },
         },
       ])
       .toArray();
 
-    // Send the result to the client
-    res.json(result);
-  } catch (error) {
-    console.error("Error fetching goal log counts:", error);
-    res.status(500).send("Error fetching goal log counts");
+    res.json(userLogs);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
@@ -186,7 +198,7 @@ app.post("/addnewlog", async (req, res) => {
     }
 
     const logData = {
-      goalId: new ObjectId(goal),
+      selectedGoalId: new ObjectId(goal),
       logName: logName,
       logDesc: logDesc,
       logDate: logDate,
