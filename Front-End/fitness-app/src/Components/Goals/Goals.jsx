@@ -70,14 +70,11 @@ export function Goals() {
                 </option>
               ))}
             </select>
-            {/* <input type="submit" value="Select" className="submit-Btn" /> */}
           </form>
         </div>
       ) : (
         <div className="goal__page">
           <h2 className="goal__text">Selected User Goals</h2>
-          {/* <pre>{JSON.stringify(openedUser, null, 2)}</pre> */}
-          {/* <AddGoal user={openedUser._id} /> */}
           <UserGoals data={openedUser} />
         </div>
       )}

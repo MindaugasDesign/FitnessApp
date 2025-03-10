@@ -16,7 +16,7 @@ export function UserGoals({ data }) {
   }, [openUser]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/userlogs/${openUser}`)
+    fetch(`http://localhost:5000/usergoallogs/${openUser}`)
       .then((res) => res.json())
       .then((data) => {
         const filter = data.map((eachLog) => {
@@ -39,24 +39,6 @@ export function UserGoals({ data }) {
         </div>
       </div>
       <div id="goal__Container">
-        <div id="single__goal">
-          <div className="goal">Learn more JavaScript</div>
-          <div className="goal__Dates">
-            <div className="fromDate">
-              <p className="fromDateTop">Start</p>
-              <p className="goalDateCreated">2025-03-02</p>
-            </div>
-            <div className="toDate">
-              <p className="fromDateTop">End</p>
-              <p className="goalDateToFinish">2025-03-09</p>
-            </div>
-          </div>
-          <progress
-            className="goalProgress"
-            // value={testArrs.length}
-            // max={testArr.length}
-          ></progress>
-        </div>
         {goals.map((goal) => (
           <SingleGoal key={goal.goalId} data={goal} userLogs={userLogs} />
         ))}

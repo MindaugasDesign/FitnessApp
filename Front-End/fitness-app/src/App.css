@@ -2,11 +2,12 @@
 .addGoal__Container,
 .addLog__Container {
   background: linear-gradient(#3c64e3, #687cdc, #858ad6);
-  min-height: calc(100vh - 110px);
+  min-height: calc(100vh - 142px);
   padding: 1em 2em;
 }
 
-.newUserContainer {
+.newUserContainer,
+#newLogForm {
   display: flex;
   align-items: center;
   justify-content: center;

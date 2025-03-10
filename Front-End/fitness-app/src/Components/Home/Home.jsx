@@ -188,8 +188,8 @@ function OneUser({ data, userid }) {
 
         <div className="icon__wrapper" onClick={() => handleDelete(userid)}>
           <p className="test">
-            <span className="edit-container">
-              <i className="fa-solid fa-trash edit-icon"></i>
+            <span className="edit-container deleteBtn">
+              <i className="fa-solid fa-trash edit-icon deleteBtn"></i>
               <span className="edit-text">Delete User</span>
             </span>
           </p>

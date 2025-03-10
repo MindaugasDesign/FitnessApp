@@ -19,9 +19,21 @@ export function AddUser() {
   //Submit handling
 
   const handleSubmit = (e) => {
-    const date = new Date().toISOString().split("T")[0];
-
     e.preventDefault();
+
+    const date = new Date().toISOString().split("T")[0];
+    if (
+      nameValue.trim() === "" ||
+      lastName.trim() === "" ||
+      userEmail.trim() === "" ||
+      userAge === "" ||
+      userHeight === "" ||
+      userWeight === ""
+    ) {
+      alert("Missing user info");
+      return;
+    }
+
     const newUser = {
       dateCreated: date,
       name: nameValue,
@@ -49,11 +61,7 @@ export function AddUser() {
   return (
     <div className="addFormContainer">
       <div>
-        <DialogWindow
-          dialogText="User Added Successfully"
-          isOpen={isOpen}
-          onClose={() => setIsOpen(false)}
-        />
+        <DialogWindow dialogText="User Added Successfully" isOpen={isOpen} />
       </div>
       <form id="addNewUser" onSubmit={handleSubmit}>
         <label htmlFor="nameValue">Name</label>
@@ -77,7 +85,6 @@ export function AddUser() {
           type="email"
           name="userEmail"
           id="userEmail"
-          required
           value={userEmail}
           onChange={(e) => setUserEmail(e.target.value)}
         />

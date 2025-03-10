@@ -61,9 +61,8 @@ export function AddLog() {
     <>
       <div>
         <DialogWindow
-          dialogText="User Added Successfully"
+          dialogText="User Log Added Successfully"
           isOpen={isOpen}
-          onClose={() => setIsOpen(false)}
         />
       </div>
       <div id="newLogForm">

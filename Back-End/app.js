@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
-import dayjs from "dayjs"; // Import Day.js for date calculations
+import dayjs from "dayjs";
+import Joi from "joi";
 
 const app = express();
 const PORT = 5000;
@@ -20,10 +21,7 @@ const client = new MongoClient(uri, {
   },
 });
 
-let db;
-let usersCollection;
-let logsCollection;
-let goalsCollection;
+let db, usersCollection, logsCollection, goalsCollection;
 
 async function initializeMongo() {
   try {
@@ -81,20 +79,14 @@ app.delete("/:id", async (req, res) => {
   const userId = req.params.id;
 
   try {
-    const objectId = new ObjectId(userId); // Convert to ObjectId
-
-    // Delete related logs and goals
+    const objectId = new ObjectId(userId);
     await logsCollection.deleteOne({ userId: objectId });
     await goalsCollection.deleteOne({ userId: objectId });
-
-    // Delete the user
     const result = await usersCollection.deleteOne({ _id: objectId });
-
     if (result.deletedCount === 0) {
       return res.status(404).json({ message: "User not found" });
     }
-
-    res.json({ message: "User and associated data deleted successfully" });
+    res.json({ message: "User deleted successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -108,6 +100,23 @@ app.get("/userlog/:id", async (req, res) => {
 
   res.send(specificUser);
 });
+
+app.get("/userlogs/:id", async (req, res) => {
+  const user = req.params.id;
+  const foundUser = await logsCollection.findOne({
+    userId: new ObjectId(user),
+  });
+  res.send(foundUser);
+});
+
+app.get("/usergoalforlog/:id", async (req, res) => {
+  const goalId = req.params.id;
+  const foundGoal = await goalsCollection.findOne({
+    "goals.goalId": new ObjectId(goalId),
+  });
+  res.json(foundGoal);
+});
+
 app.get("/usergoal/:id", async (req, res) => {
   const sentUser = req.params.id;
   const specificUser = await usersCollection.findOne({
@@ -125,7 +134,7 @@ app.get("/usergoals/:id", async (req, res) => {
   res.send(specificGoals);
 });
 
-app.get("/userlogs/:id", async (req, res) => {
+app.get("/usergoallogs/:id", async (req, res) => {
   try {
     const userId = new ObjectId(req.params.id);
 
@@ -163,27 +172,46 @@ app.get("/userlogs/:id", async (req, res) => {
 });
 
 app.post("/addnewuser", async (req, res) => {
+  const userSchema = Joi.object({
+    dateCreated: Joi.date().required(),
+    name: Joi.string().min(2).max(50).required(),
+    lastName: Joi.string().min(2).max(50).required(),
+    email: Joi.string().email().required(),
+    age: Joi.number().integer().min(0).max(80).required(),
+    weight: Joi.number().positive().max(500).required(),
+    height: Joi.number().positive().max(250).required(),
+  });
+
   try {
     const newUser = req.body;
-    const userResult = await usersCollection.insertOne(newUser);
-    if (!userResult.acknowledged) {
-      return res.status(500).send({ error: "Failed to create user" });
-    }
-    const logEntry = {
-      userId: userResult.insertedId,
-      logs: [],
-    };
+    const validUser = userSchema.validate(newUser);
+    let userResult;
 
-    const userGoal = {
-      userId: userResult.insertedId,
-      goals: [],
-    };
-    await logsCollection.insertOne(logEntry);
-    await goalsCollection.insertOne(userGoal);
-    return res.status(201).send({
-      userId: userResult.insertedId,
-      message: "User created and log added",
-    });
+    if (!validUser) {
+      console.log(
+        "Validation Error:",
+        error.details.map((detail) => detail.message)
+      );
+      return;
+    } else {
+      userResult = await usersCollection.insertOne(newUser);
+      const logEntry = {
+        userId: userResult.insertedId,
+        logs: [],
+      };
+
+      const userGoal = {
+        userId: userResult.insertedId,
+        goals: [],
+      };
+      await logsCollection.insertOne(logEntry);
+      await goalsCollection.insertOne(userGoal);
+      console.log("Validation Passed!");
+      return res.status(201).send({
+        userId: userResult.insertedId,
+        message: "User created and log added",
+      });
+    }
   } catch (error) {
     console.error("Error adding new user and log:", error);
     return res.status(500).send({ error: "Internal server error" });
@@ -273,8 +301,6 @@ app.post("/addgoal", async (req, res) => {
     res.status(500).send({ error: "Internal server error" });
   }
 });
-
-app.get("/goals", async (req, res) => {});
 
 app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);
