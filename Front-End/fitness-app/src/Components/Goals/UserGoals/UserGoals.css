@@ -73,3 +73,14 @@
 .toDate {
   text-align: end;
 }
+
+.goalPercent {
+  margin: -8px 0;
+  color: white;
+  text-align: center;
+  font-size: small;
+}
+
+.goalProgress {
+  accent-color: #59545f;
+}

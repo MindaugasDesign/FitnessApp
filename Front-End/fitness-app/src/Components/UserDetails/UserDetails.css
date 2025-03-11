@@ -1,0 +1,24 @@
+#userDetails__container {
+  background: linear-gradient(#3c64e3, #687cdc, #858ad6);
+  min-height: calc(100vh - 110px - 2em);
+  padding: 1em 2em;
+}
+
+.userDetails__userName > .openUser {
+  margin: 0;
+  color: antiquewhite;
+  letter-spacing: 0.1em;
+}
+
+.dataContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+  flex-wrap: wrap;
+}
+
+.dataName {
+  color: #f9c2c4;
+  letter-spacing: 0.05em;
+  font-style: italic;
+}

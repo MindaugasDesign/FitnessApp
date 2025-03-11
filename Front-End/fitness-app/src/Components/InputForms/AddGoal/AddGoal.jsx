@@ -1,21 +1,27 @@
 import { useState } from "react";
 import "./AddGoal.css";
 import { useLocation } from "react-router-dom";
+import { DialogWindow } from "../../Extra Components/DialogWindow/DialogWindow";
+import { useNavigate } from "react-router-dom";
 
-export function AddGoal({ user }) {
+export function AddGoal() {
   const [goalName, setGoalName] = useState("");
   const [goalStartDate, setGoalStartDate] = useState("");
   const [goalDuration, setGoalDuration] = useState("");
-
+  const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const userId = location.state?.userId;
-
-  console.log(userId);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const goalData = { userId: userId, goalName, goalStartDate, goalDuration };
+
+    if (goalName === "" || goalStartDate === "" || goalDuration === "") {
+      alert("Missing Goal info");
+      return;
+    }
 
     try {
       const response = await fetch("http://localhost:5000/addgoal", {
@@ -25,7 +31,6 @@ export function AddGoal({ user }) {
       });
 
       if (response.ok) {
-        alert("Goal added successfully!");
         setGoalName("");
         setGoalStartDate("");
         setGoalDuration("");
@@ -36,11 +41,23 @@ export function AddGoal({ user }) {
       console.error("Error:", error);
       alert("Something went wrong!");
     }
+
+    setIsOpen(true);
+
+    setTimeout(() => {
+      setIsOpen(false);
+      navigate("/");
+    }, 1500);
   };
 
   return (
     <>
-      <h1 className="goalForm">User ID: {userId}</h1>
+      <div>
+        <DialogWindow
+          dialogText="User Goal Added Successfully"
+          isOpen={isOpen}
+        />
+      </div>
       <form id="addNewGoal" onSubmit={handleSubmit}>
         <label htmlFor="goalName">Goal Name</label>
         <input

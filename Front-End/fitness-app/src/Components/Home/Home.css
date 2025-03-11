@@ -12,10 +12,6 @@
   width: fit-content;
 }
 
-body {
-  height: 100vh;
-}
-
 .home-wrapper {
   background: linear-gradient(#3c64e3, #687cdc, #858ad6);
   min-height: calc(100vh - 110px);
@@ -61,6 +57,12 @@ body {
   flex-direction: row;
   gap: 0.7em;
   flex-wrap: wrap;
+  height: calc(100vh - 17em);
+  background: linear-gradient(rgba(26, 31, 58, 0.8), rgba(51, 56, 64, 0.6));
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  width: 95%;
+  margin: auto;
 }
 
 .userLogs,
@@ -92,7 +94,7 @@ body {
   color: black;
 }
 
-.test {
+.iconContainer {
   position: relative;
   font-family: sans-serif;
   font-size: 24px;
@@ -143,4 +145,31 @@ body {
 
 .deleteBtn:hover {
   color: red;
+}
+
+.loader {
+  border: 8px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 8px solid #3498db;
+  width: 40px;
+  height: 40px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loaderContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }

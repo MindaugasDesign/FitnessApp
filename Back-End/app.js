@@ -2,16 +2,16 @@ import express from "express";
 import cors from "cors";
 import dayjs from "dayjs";
 import Joi from "joi";
+import "dotenv/config";
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT;
 
 app.use(express.json());
 app.use(cors());
 
 import { MongoClient, ObjectId, ServerApiVersion } from "mongodb";
-const uri =
-  "mongodb+srv://rasimaviciusmindaugas:Mindelis.123@duomenubaze.e17x3.mongodb.net/?retryWrites=true&w=majority&appName=Duomenubaze";
+const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@duomenubaze.e17x3.mongodb.net/?retryWrites=true&w=majority&appName=Duomenubaze`;
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -47,6 +47,16 @@ app.get("/", async (req, res) => {
   }
 });
 
+app.get("/:id", async (req, res) => {
+  try {
+    const oneUser = req.params.id;
+    const users = await usersCollection.findOne({ _id: new ObjectId(oneUser) });
+    return res.status(200).send(users);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+});
+
 app.put("/:id", async (req, res) => {
   const { name, age, email, weight, height, dateCreated } = req.body;
   try {
@@ -74,7 +84,6 @@ app.put("/:id", async (req, res) => {
   }
 });
 
-// DELETE user by ID
 app.delete("/:id", async (req, res) => {
   const userId = req.params.id;
 

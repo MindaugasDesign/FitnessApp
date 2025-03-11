@@ -27,6 +27,15 @@ export function AddLog() {
 
   const handleSubmits = (e) => {
     e.preventDefault();
+    if (
+      selectedGoal === "" ||
+      logName === "" ||
+      logDesc === "" ||
+      logDate === ""
+    ) {
+      alert("Missing Log info");
+      return;
+    }
 
     fetch(`http://localhost:5000/addnewlog`, {
       method: "POST",

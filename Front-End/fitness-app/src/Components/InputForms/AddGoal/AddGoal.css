@@ -1,10 +1,68 @@
 .addGoal__Container {
   background: linear-gradient(#3c64e3, #687cdc, #858ad6);
-  height: calc(100vh - 110px);
+  height: calc(100vh - 110px - 2em);
 }
 
-.goalForm {
-  margin: 0 1em;
-  color: #f9c2c4;
-  letter-spacing: 0.1em;
+#addNewGoal {
+  display: flex;
+  flex-direction: column;
+  width: 30em;
+  padding: 2em;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  z-index: 2;
+}
+
+#addNewGoal > label {
+  font-size: 1em;
+  margin-bottom: 1em;
+  color: #333;
+}
+
+#addNewGoal > input {
+  height: 1.25em;
+  padding: 0.5em;
+  margin-bottom: 0.5em;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#addNewGoal > input:focus {
+  outline: none;
+  border-color: #687cdc;
+  box-shadow: 0 0 5px #687cdc;
+}
+
+#addNewGoal > input[type="submit"] {
+  height: 2.5em;
+  cursor: pointer;
+  background-color: #858ad6;
+  color: white;
+  font-size: 1.2em;
+  border: none;
+  padding: 0.8em;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+  text-align: center;
+}
+
+input[type="submit"]:hover {
+  background-color: #687cdc;
+}
+
+input[type="submit"]:active {
+  background-color: #687cdc;
+}
+
+#addNewGoal > select,
+input[type="date"] {
+  accent-color: #687cdc;
+  height: 2.5em;
+  padding: 0.5em;
+  margin-bottom: 0.5em;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }

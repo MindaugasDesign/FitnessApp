@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Button } from "../../Extra Components/Button/Button";
 import "./UserGoals.css";
 import { Link } from "react-router-dom";
+import { SingleGoal } from "../SingleGoal/SingleGoal";
 
 export function UserGoals({ data }) {
   const [goals, setGoals] = useState([]);
@@ -39,47 +40,14 @@ export function UserGoals({ data }) {
         </div>
       </div>
       <div id="goal__Container">
-        {goals.map((goal) => (
-          <SingleGoal key={goal.goalId} data={goal} userLogs={userLogs} />
-        ))}
+        {goals.length > 0 ? (
+          goals.map((goal) => (
+            <SingleGoal key={goal.goalId} data={goal} userLogs={userLogs} />
+          ))
+        ) : (
+          <p>No goals found.</p>
+        )}
       </div>
     </>
-  );
-}
-
-function SingleGoal({ data, userLogs }) {
-  const newStartDate = new Date(data.startDate).toISOString().split("T")[0];
-  const newEndDate = new Date(data.endDate).toISOString().split("T")[0];
-  const newStartDates = new Date(data.startDate);
-  const newEndDates = new Date(data.endDate);
-
-  const goalLogs = userLogs
-    .map((user) => user.logs)
-    .flat()
-    .filter((log) => log.selectedGoalId === data.goalId);
-
-  let goalLength = newEndDates.getTime() - newStartDates.getTime();
-
-  let goalLengthInDays = Math.round(goalLength / (1000 * 60 * 60 * 24));
-
-  return (
-    <div id="single__goal">
-      <div className="goal">{data.goalName}</div>
-      <div className="goal__Dates">
-        <div className="fromDate">
-          <p className="fromDateTop">Start</p>
-          <p className="goalDateCreated">{newStartDate}</p>
-        </div>
-        <div className="toDate">
-          <p className="fromDateTop">End</p>
-          <p className="goalDateToFinish">{newEndDate}</p>
-        </div>
-      </div>
-      <progress
-        className="goalProgress"
-        value={goalLogs.length}
-        max={goalLengthInDays}
-      ></progress>
-    </div>
   );
 }
