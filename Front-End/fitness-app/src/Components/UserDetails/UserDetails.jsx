@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./UserDetails.css";
 import { useLocation } from "react-router-dom";
-import { SingleLog } from "../Logs/SingleLog/SingleLog";
+import { SingleLog } from "../Log/SingleLog/SingleLog";
 import { SingleGoal } from "../Goals/SingleGoal/SingleGoal";
 
 export function UserDetails() {

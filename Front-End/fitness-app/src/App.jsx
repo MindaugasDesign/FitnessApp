@@ -9,7 +9,7 @@ import { Footer } from "./Components/Footer/Footer";
 import { AddGoal } from "./Components/InputForms/AddGoal/AddGoal";
 import { AddLog } from "./Components/InputForms/AddLog/AddLog";
 import { UserDetails } from "./Components/UserDetails/UserDetails";
-import { Logs } from "./Components/Logs/Logs";
+import { Logs } from "./Components/Log/Logs";
 
 function App() {
   return (
