@@ -1,0 +1,37 @@
+.first__page {
+  background: linear-gradient(#3c64e3, #687cdc, #858ad6);
+  height: calc(100vh - 110px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#selectUser {
+  padding: 0.5em;
+  width: 10em;
+  font-size: x-large;
+  font-family: "Quantico", sans-serif;
+  margin-bottom: 3em;
+  display: flex;
+  flex-direction: row;
+}
+
+#selectUser select {
+  background-color: #f9c2c4;
+  color: #686868;
+}
+
+.first__page h2 {
+  color: #f9c2c4;
+}
+
+.log__page {
+  background: linear-gradient(#3c64e3, #687cdc, #858ad6);
+  height: calc(100vh - 110px);
+}
+
+.log__page > .log__text {
+  margin: 0 1em;
+  color: #f9c2c4;
+}

@@ -1,0 +1,86 @@
+.log__header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1em;
+}
+
+#log__Container {
+  padding: 0 1em;
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+}
+
+#single__log {
+  border: 1px solid black;
+  width: 18em;
+  background-color: #7c6e6e;
+  box-shadow: 0.1em 0.1em 1em #d3d3d3;
+  border-radius: 16px;
+  padding: 0.5em;
+}
+
+#single__log > .logName {
+  color: #fff;
+  font-size: medium;
+  text-align: center;
+  font-style: italic;
+  letter-spacing: 0.1em;
+}
+
+#single__log > .logDate {
+  color: #f9c2c4;
+  text-align: center;
+  letter-spacing: 0.1em;
+  font-weight: bold;
+}
+
+#single__log > .logDesc {
+  text-align: center;
+  color: #fff;
+  letter-spacing: 0.05em;
+}
+
+.log__header > .userDetails > .logOfUser {
+  color: white;
+  letter-spacing: 0.1em;
+  font-style: italic;
+}
+
+#single__log > .goalName {
+  color: #d3d3d3;
+  font-size: large;
+  font-weight: bold;
+  text-align: center;
+  font-style: italic;
+  letter-spacing: 0.1em;
+}
+
+.filterContainer {
+  display: flex;
+  flex-direction: row;
+  padding: 1em 2em;
+  gap: 3em;
+  align-items: center;
+}
+
+.filterName {
+  font-size: x-large;
+  margin: 0;
+  letter-spacing: 0.1em;
+  color: #f9c2c4;
+  font-style: italic;
+}
+
+.filterContainer > select {
+  height: 2.5em;
+  font-size: 1em;
+  width: 15em;
+  text-align: center;
+  font-style: italic;
+  border: none;
+  accent-color: #f9c2c4;
+  border-radius: 8px;
+}
