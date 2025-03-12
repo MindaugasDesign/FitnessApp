@@ -38,6 +38,7 @@ async function initializeMongo() {
 
 initializeMongo();
 
+//Home
 app.get("/", async (req, res) => {
   try {
     const users = await usersCollection.find().toArray();
@@ -68,33 +69,22 @@ app.put("/:id", async (req, res) => {
       height,
       dateCreated,
     };
-
     const result = await usersCollection.updateOne(
       { _id: new ObjectId(req.params.id) },
       { $set: updatedUser }
     );
-
-    if (result.matchedCount === 0) {
-      return res.status(404).send("User not found");
-    }
-
     return res.status(200).json(updatedUser);
   } catch (error) {
     res.status(400).send(error.message);
   }
 });
-
 app.delete("/:id", async (req, res) => {
   const userId = req.params.id;
-
   try {
     const objectId = new ObjectId(userId);
     await logsCollection.deleteOne({ userId: objectId });
     await goalsCollection.deleteOne({ userId: objectId });
     const result = await usersCollection.deleteOne({ _id: objectId });
-    if (result.deletedCount === 0) {
-      return res.status(404).json({ message: "User not found" });
-    }
     res.json({ message: "User deleted successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -146,7 +136,6 @@ app.get("/usergoals/:id", async (req, res) => {
 app.get("/usergoallogs/:id", async (req, res) => {
   try {
     const userId = new ObjectId(req.params.id);
-
     const userLogs = await goalsCollection
       .aggregate([
         {
@@ -215,7 +204,6 @@ app.post("/addnewuser", async (req, res) => {
       };
       await logsCollection.insertOne(logEntry);
       await goalsCollection.insertOne(userGoal);
-      console.log("Validation Passed!");
       return res.status(201).send({
         userId: userResult.insertedId,
         message: "User created and log added",
@@ -261,15 +249,11 @@ app.post("/addnewlog", async (req, res) => {
 app.post("/addgoal", async (req, res) => {
   try {
     const { userId, goalName, goalStartDate, goalDuration } = req.body;
-
-    console.log(userId);
-
     if (!userId || !goalName || !goalStartDate || !goalDuration) {
       return res.status(400).send({ error: "All fields are required" });
     }
     const startDate = new Date(goalStartDate);
     let endDate = new Date(startDate);
-
     switch (goalDuration) {
       case "1day":
         endDate = dayjs(startDate).add(1, "day").toDate();
@@ -286,20 +270,17 @@ app.post("/addgoal", async (req, res) => {
       default:
         return res.status(400).send({ error: "Invalid duration" });
     }
-
     const goalData = {
       goalId: new ObjectId(),
       goalName,
       startDate,
       endDate,
     };
-
     const result = await goalsCollection.updateOne(
       { userId: new ObjectId(userId) },
       { $push: { goals: goalData } },
       { upsert: true }
     );
-
     if (result.modifiedCount > 0 || result.upsertedCount > 0) {
       res.status(201).send({ message: "Goal added successfully!", goalData });
     } else {
