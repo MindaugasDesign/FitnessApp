@@ -1,62 +1,80 @@
 # FitnessApp
 
-This application is designed for users to create workout logs, set goals they want to achieve and progress that is made
+This application is designed for users to create workout logs, set goals they want to achieve, and track their progress.
 
-# Installing
+## Installation
 
-# 1. Getting the files fron Github repo :
+### 1. Clone the Repository
 
+```sh
 git clone https://github.com/MindaugasDesign/FitnessApp.git
+```
 
-# 2. Selecting the certainer folder, as frontend and backend are in the same folder:
+### 2. Navigate to the Correct Directory
 
-\*For Backend -
+Since the frontend and backend are in the same repository, navigate to the appropriate folder:
 
+#### Backend Setup
+
+```sh
 cd FitnessApp/Back-End
 npm install
 npm run start
+```
 
-\*This should start a server for the backend with connection to MongoDB
+This will start the backend server with a connection to MongoDB.
 
-///
+---
 
-\*For Frontend -
+#### Frontend Setup
 
-Open a new terminal (bash if powershell was used before)
+Open a new terminal (bash if PowerShell was used before):
 
+```sh
 cd FitnessApp/Front-End/fitness-app
 npm install
 npm run dev
+```
 
-\*This will run a frontend server which will be displayed in the console, to open just use CTRL + mouseclick and it will open a web browser on you computer with that link
+The frontend server will start, and the terminal will display a local URL. To open the app in a web browser, use `CTRL + Click` on the provided link.
 
-# App Details
+## App Details
 
-This is an admin panel app for a to-do list like website, where you can track you goal progress and add logs to said goals.
+**FitnessApp** is an admin panel application designed for managing workout goals and logs.
 
-In the home page you can see all of the users that are available. When clicking "Add New User" button, you add a new user and by filling in the details necessary you will be redirected to the home page.
-Each user will have 3 buttons: View user, edit user and delete user. Their main purpose is as you can guess, for you to view user, edit user and delete certain user.
+### Features:
 
-View window lets you check selected users Logs and Goals in one page.
-Edit will let you edit the information in the user card if it changed.
-Delete will delete the user and it's logs and goals
+- Track goal progress and add logs to goals.
+- Manage users and their workout data.
+- View, edit, and delete user information.
+- Filter logs by goal for better tracking.
 
-Navigating to Logs in the navigation bar will redirect you to a page where you can select a user you want to see from a dropdown.
-Upon selecting you will be met with a page with all of the logs for selected user:
+### Home Page
 
-A log card with the information about said log :
-.Goal that this log is for
-.Name of the log
-.Date this log was achieved
-.Details of the log (description)
+- Displays all registered users.
+- Click **"Add New User"** to create a new user and fill in necessary details.
+- Each user has three buttons:
+  - **View User**: Check logs and goals for a specific user.
+  - **Edit User**: Modify user details.
+  - **Delete User**: Remove the user along with their logs and goals.
 
-There is a way to filter logs by goal. If you have a goal for a longer period of time, you could check what you've done already and what you could still be doing.
+### Logs Section
 
-Goal starting page is almost the same as the logs, where you can select a user to check and add Goals for selected user
+- Navigate to **Logs** via the navigation bar.
+- Select a user from the dropdown to view their logs.
+- Each log card contains:
+  - **Goal Name**: The goal this log belongs to.
+  - **Log Name**: Title of the log entry.
+  - **Date Achieved**: When the log entry was recorded.
+  - **Description**: Additional details about the log.
+- Logs can be filtered by goal to track long-term progress.
 
-The Goal page will display goals in cards aswell but in a different manner
+### Goals Section
 
-It will display:
-.Goal name
-.Goal duration from start to finish (finish date is calculated based on what was selected when adding a new goal from the start date)
-.And the progress of the goal in percentages(this is calculated based on logs added to the goal (assuming each log is added daily))
+- Similar to the logs section, you can select a user to manage their goals.
+- Goals are displayed in individual cards showing:
+  - **Goal Name**.
+  - **Duration**: Start date to calculated finish date.
+  - **Progress**: Percentage completion based on logs added (assuming daily log entries contribute to progress).
+
+This application helps users stay on track with their fitness journey by organizing workout logs and goals efficiently.
